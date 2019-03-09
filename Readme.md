@@ -5,12 +5,12 @@ Chirper is a more intuitive version of Twitter
 
 ## Setup
 
-1.Clone the repository.
+1. Clone the repository.
 
 ``` bash
 git clone https://github.com/timmick/chirper
 ```
-2.Set configaration parameter such a 
+2. Set configaration parameter such a 
 
 ```
 CHIRPER_DB_HOST=
@@ -23,13 +23,13 @@ CHIRPER_PORT=
 ```
 in shell or in `env` file.
 
-3.Install libraries 
+3. Install libraries 
 
 ``` bash
 npm install
 ```
 
-4.Start server.
+4. Start server
 
 ```
 node chirper.js
