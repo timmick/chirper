@@ -1,5 +1,6 @@
 const express = require('express')
 const app = express()
+const bodyParser = require('body-parser')
 const mysql = require('mysql')
 
 require('dotenv').config()
@@ -12,14 +13,32 @@ const connection = mysql.createConnection({
     database : process.env.CHIRPER_DB_NAME
   })
 
-connection.query("INSERT INTO `atabaev_t_db`.`Chirps` (`Content`) VALUES ('HI!');",(_,results,fields)=>
-{
-  console.log(results)
-});
-connection.query('SELECT * FROM atabaev_t_db.Chirps;',(_,results,fields)=>
-{
-  console.log(results)
-});
-app.use(express.static('public'))
 
+
+app.use(express.static('public'))
+app.set('view engine', 'ejs')
+app.use(bodyParser.urlencoded({expected:true}))
+
+app.get('/',  (_, response)=> 
+{
+ 
+  connection.query('SELECT * FROM atabaev_t_db.Chirps;',(error,results)=>
+   
+  { 
+     if (error) throw error
+     response.render('index', {'chirps':results })
+  });
+})
+app.post('/',(request,response) =>
+{
+  const content = request.body.content
+  connection.query(`INSERT INTO Chirps Set ?;`,{'Content':content},(error)=>
+   {
+       if (error) throw error
+       response.writeHead(302,{
+        'Location': '/'
+      })
+       response.end();
+   });
+});
 app.listen(port, () => console.log(`The Chirper server listening on port ${port}.`))
